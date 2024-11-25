@@ -6,11 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "products")
+@Table(name = "customers")
 @Data  // Lombok sayesinde getter, setter, toString, equals ve hashCode metodları otomatik olarak oluşturulur.
-public class Product extends BaseEntity {
+public class Customer extends BaseEntity {
 
-    private String name;
-    private Double price;
-    private Integer stockQuantity;
+    private String firstName;
+    private String lastName;
+    private String email;
 }
