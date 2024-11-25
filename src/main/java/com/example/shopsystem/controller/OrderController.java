@@ -1,8 +1,7 @@
 package com.example.shopsystem.controller;
 
-import com.example.shopsystem.model.Order;
-import com.example.shopsystem.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.shopsystem.model.Order; // Order modelini import ediyoruz.
+import com.example.shopsystem.service.OrderService; // OrderService'i import ediyoruz.
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,28 +11,31 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    // Sipariş oluşturma
+    // OrderService'i constructor ile alıyoruz
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    // Create a new order
     @PostMapping("/{customerId}")
     public ResponseEntity<Order> placeOrder(@PathVariable Long customerId, @RequestBody List<Long> productIds) {
-        Order order = orderService.placeOrder(customerId, productIds);
-        return ResponseEntity.ok(order);
+        // orderService.placeOrder metodunu çağırıyoruz ve geri dönen Order'ı ResponseEntity ile dönüyoruz
+        return ResponseEntity.ok(orderService.placeOrder(customerId, productIds));
     }
 
-    // Sipariş ID ile getirme
+    // Retrieve an order by ID
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderForCode(@PathVariable Long orderId) {
-        Order order = orderService.getOrderForCode(orderId);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
+        // orderService.getOrderById metodunu çağırıyoruz ve Order'ı ResponseEntity ile dönüyoruz
+        return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 
-    // Bir müşterinin tüm siparişlerini getirme
+    // Retrieve all orders for a specific customer
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Order>> getAllOrdersForCustomer(@PathVariable Long customerId) {
-        List<Order> orders = orderService.getAllOrdersForCustomer(customerId);
-        return ResponseEntity.ok(orders);
+    public ResponseEntity<List<Order>> getOrdersByCustomer(@PathVariable Long customerId) {
+        // orderService.getOrdersByCustomer metodunu çağırıyoruz ve listeyi ResponseEntity ile dönüyoruz
+        return ResponseEntity.ok(orderService.getOrdersByCustomer(customerId));
     }
 }
-

@@ -1,43 +1,63 @@
 package com.example.shopsystem.controller;
 
 import com.example.shopsystem.model.Cart;
+import com.example.shopsystem.model.Product;
 import com.example.shopsystem.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/carts")
 public class CartController {
 
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
 
-    // Sepete ürün ekleme
-    @PostMapping("/{cartId}/products/{productId}")
-    public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId, @RequestParam int quantity) {
-        Cart updatedCart = cartService.addProductToCart(cartId, productId, quantity);
-        return ResponseEntity.ok(updatedCart);
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
     }
 
-    // Sepeti güncelleme
-    @PutMapping("/{cartId}/products/{productId}")
-    public ResponseEntity<Cart> updateCart(@PathVariable Long cartId, @PathVariable Long productId, @RequestParam int quantity) {
-        Cart updatedCart = cartService.updateCart(cartId, productId, quantity);
-        return ResponseEntity.ok(updatedCart);
+    // Tüm sepetleri getirme
+    @GetMapping
+    public ResponseEntity<List<Cart>> getAllCarts() {
+        return ResponseEntity.ok(cartService.getAllCarts());
     }
 
-    // Sepeti temizleme
+    // Sepeti ID ile getirme
+    @GetMapping("/{cartId}")
+    public ResponseEntity<Cart> getCartById(@PathVariable Long cartId) {
+        return ResponseEntity.ok(cartService.getCartById(cartId));
+    }
+
+    // Yeni sepet oluşturma
+    @PostMapping
+    public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
+        return ResponseEntity.ok(cartService.saveCart(cart));
+    }
+
+    // Sepeti silme
     @DeleteMapping("/{cartId}")
-    public ResponseEntity<Void> emptyCart(@PathVariable Long cartId) {
-        cartService.emptyCart(cartId);
+    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId) {
+        cartService.deleteCart(cartId);
         return ResponseEntity.noContent().build();
     }
 
-    // Sepeti getirme
-    @GetMapping("/{cartId}")
-    public ResponseEntity<Cart> getCart(@PathVariable Long cartId) {
-        Cart cart = cartService.getCart(cartId);
-        return ResponseEntity.ok(cart);
+    // Sepete ürün ekleme
+    @PostMapping("/{cartId}/products/{productId}")
+    public ResponseEntity<Cart> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId) {
+        return ResponseEntity.ok(cartService.addProductToCart(cartId, productId));
+    }
+
+    // Sepetten ürün çıkarma
+    @DeleteMapping("/{cartId}/products/{productId}")
+    public ResponseEntity<Cart> removeProductFromCart(@PathVariable Long cartId, @PathVariable Long productId) {
+        return ResponseEntity.ok(cartService.removeProductFromCart(cartId, productId));
+    }
+
+    // Sepetteki tüm ürünleri getirme
+    @GetMapping("/{cartId}/products")
+    public ResponseEntity<List<Product>> getProductsInCart(@PathVariable Long cartId) {
+        return ResponseEntity.ok(cartService.getProductsInCart(cartId));
     }
 }
