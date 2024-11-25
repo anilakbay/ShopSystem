@@ -1,19 +1,15 @@
 package com.example.shopsystem.model;
 
 import javax.persistence.Entity;
-import javax.persistence.Column;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "products")
 public class Product extends BaseEntity {
 
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private Double price;
-
-    @Column(nullable = false)
-    private Integer stock;
+    private Integer stockQuantity;
 
     // Getter ve Setter metodları
     public String getName() {
@@ -32,12 +28,11 @@ public class Product extends BaseEntity {
         this.price = price;
     }
 
-    public Integer getStock() {
-        return stock;
+    public Integer getStockQuantity() {
+        return stockQuantity;
     }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setStockQuantity(Integer stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 }
-
