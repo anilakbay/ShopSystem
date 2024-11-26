@@ -1,7 +1,6 @@
 package com.example.shopsystem.controller;
 
-import com.example.shopsystem.model.Order; // Order modelini import ediyoruz.
-import com.example.shopsystem.service.OrderService; // OrderService'i import ediyoruz.
+import com.example.shopsystem.model.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,29 +12,34 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    // OrderService'i constructor ile alıyoruz
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
-    // Create a new order
+    // Yeni bir sipariş oluşturur
     @PostMapping("/{customerId}")
     public ResponseEntity<Order> placeOrder(@PathVariable Long customerId, @RequestBody List<Long> productIds) {
-        // orderService.placeOrder metodunu çağırıyoruz ve geri dönen Order'ı ResponseEntity ile dönüyoruz
-        return ResponseEntity.ok(orderService.placeOrder(customerId, productIds));
+        Order order = orderService.placeOrder(customerId, productIds);
+        return ResponseEntity.ok(order);
     }
 
-    // Retrieve an order by ID
+    // Siparişi ID'ye göre getirir
     @GetMapping("/{orderId}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
-        // orderService.getOrderById metodunu çağırıyoruz ve Order'ı ResponseEntity ile dönüyoruz
-        return ResponseEntity.ok(orderService.getOrderById(orderId));
+        Order order = orderService.getOrderById(orderId);
+        if (order != null) {
+            return ResponseEntity.ok(order);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    // Retrieve all orders for a specific customer
+    // Belirli bir müşteri için tüm siparişleri getirir
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<Order>> getOrdersByCustomer(@PathVariable Long customerId) {
-        // orderService.getOrdersByCustomer metodunu çağırıyoruz ve listeyi ResponseEntity ile dönüyoruz
-        return ResponseEntity.ok(orderService.getOrdersByCustomer(customerId));
+        List<Order> orders = orderService.getOrdersByCustomer(customerId);
+        if (!orders.isEmpty()) {
+            return ResponseEntity.ok(orders);
+        }
+        return ResponseEntity.noContent().build();
     }
 }

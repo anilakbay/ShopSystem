@@ -2,10 +2,9 @@ package com.example.shopsystem.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "carts")
@@ -18,5 +17,13 @@ public class Cart extends BaseEntity {
 
     private Double totalPrice;  // Sepetin toplam fiyatı
 
-    // Sepete ürün eklemek ve toplam fiyatı hesaplamak gibi işlemler için metodlar eklenebilir.
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  // Sepetteki ürünler bir liste olarak tutuluyor
+    @JoinColumn(name = "cart_id")  // Bu, Cart ve Product arasındaki ilişkiyi belirtir
+    private List<Product> products = new ArrayList<>();  // Sepetteki ürünler
+
+    // Sepete ürün eklemek için yardımcı metod
+    public void addProduct(Product product) {
+        this.products.add(product);
+        this.totalPrice += product.getPrice();  // Ürünün fiyatını toplam fiyata ekle
+    }
 }

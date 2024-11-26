@@ -1,21 +1,18 @@
 package com.example.shopsystem.model;
 
-import javax.persistence.*;
+import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-public class Order {
+@Table(name = "orders")
+@Data
+public class Order extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long customerId; // Müşteri ID'si
+    private List<Long> productIds; // Ürün ID'leri
 
-    @ManyToOne
-    private Customer customer;
-
-    @ManyToMany
-    private List<Product> products;
-
-    // Getters and Setters
+    // İsteğe bağlı olarak burada başka alanlar eklenebilir
 }
 

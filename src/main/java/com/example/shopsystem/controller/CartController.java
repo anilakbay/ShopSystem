@@ -2,7 +2,6 @@ package com.example.shopsystem.controller;
 
 import com.example.shopsystem.model.Cart;
 import com.example.shopsystem.model.Product;
-import com.example.shopsystem.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
