@@ -42,10 +42,32 @@ ShopSystem, bir e-ticaret uygulaması için geliştirilmiş bir sistemdir. Bu pr
 Yeni bir özellik ekleyin veya hata düzeltmesi yapın.
 Değişikliklerinizi commit edin ve bir pull request oluşturun.` 
 
-![product.png](../../Java%20Dersleri/%C4%B0%C5%9F%20M%C3%BClakat%C4%B1/images/product.png)
-![order_dto.png](../../Java%20Dersleri/%C4%B0%C5%9F%20M%C3%BClakat%C4%B1/images/order_dto.png)
-![model.png](../../Java%20Dersleri/%C4%B0%C5%9F%20M%C3%BClakat%C4%B1/images/model.png)
-![model2.png](../../Java%20Dersleri/%C4%B0%C5%9F%20M%C3%BClakat%C4%B1/images/model2.png)
-![productrepo.png](../../Java%20Dersleri/%C4%B0%C5%9F%20M%C3%BClakat%C4%B1/images/productrepo.png)
-![customerrepo.png](../../Java%20Dersleri/%C4%B0%C5%9F%20M%C3%BClakat%C4%B1/images/customerrepo.png)
-![product_dto.png](../../Java%20Dersleri/%C4%B0%C5%9F%20M%C3%BClakat%C4%B1/images/product_dto.png)
+# Shop System
+
+Bu projede ürünlerin bulunduğu bir alışveriş sistemi yer almaktadır.
+
+## Ürünler
+
+### Ürün 1
+![Product 1](src/main/resources/images/model.png)
+
+### Ürün 2
+![Product 2](src/main/resources/images/model2.png)
+
+### Ürün 3
+![Product 3](src/main/resources/images/order.png)
+
+### Ürün 4
+![Product 4](src/main/resources/images/product.png)
+
+### Ürün 5
+![Product 5](src/main/resources/images/productrepo.png)
+
+### Ürün 6
+![Product 6](src/main/resources/images/product_dto.png)
+
+### Ürün 7
+![Product 7](src/main/resources/images/order_dto.png)
+
+### Ürün 8
+![Product 8](src/main/resources/images/customerrepo.png)
