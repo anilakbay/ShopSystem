@@ -1,16 +1,17 @@
 package com.example.shopsystem.model;
 
 import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.EqualsAndHashCode;
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
-@Data  // Lombok sayesinde getter, setter, toString, equals ve hashCode metodları otomatik olarak oluşturulur.
+@Data
+@EqualsAndHashCode(callSuper = true)  // Bu şekilde BaseEntity'deki equals ve hashCode metotları da dikkate alınır.
 public class Product extends BaseEntity {
 
     private String name;
-    private Double price;
+    private BigDecimal price;
     private Integer stockQuantity;
 }

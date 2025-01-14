@@ -1,29 +1,46 @@
 package com.example.shopsystem.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "carts")
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Cart extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)  // Sepet, bir müşteri ile ilişkilidir ve bu ilişki zorunludur
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    private Double totalPrice;  // Sepetin toplam fiyatı
+    private BigDecimal totalPrice = BigDecimal.ZERO;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  // Sepetteki ürünler bir liste olarak tutuluyor
-    @JoinColumn(name = "cart_id")  // Bu, Cart ve Product arasındaki ilişkiyi belirtir
-    private List<Product> products = new ArrayList<>();  // Sepetteki ürünler
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
+    private List<Product> products = new ArrayList<>();
 
-    // Sepete ürün eklemek için yardımcı metod
     public void addProduct(Product product) {
-        this.products.add(product);
-        this.totalPrice += product.getPrice();  // Ürünün fiyatını toplam fiyata ekle
+        if (product != null) {
+            products.add(product);
+            recalculateTotalPrice();
+        }
+    }
+
+    public void removeProduct(Product product) {
+        if (products.remove(product)) {
+            recalculateTotalPrice();
+        }
+    }
+
+    // Daha sade ve doğru bir toplam fiyat hesaplama
+    private void recalculateTotalPrice() {
+        totalPrice = products.stream()
+                .map(Product::getPrice)  // BigDecimal fiyatları alıyoruz
+                .reduce(BigDecimal.ZERO, BigDecimal::add);  // Toplam fiyatı hesaplıyoruz
     }
 }

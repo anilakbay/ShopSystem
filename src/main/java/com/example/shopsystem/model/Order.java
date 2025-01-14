@@ -1,18 +1,26 @@
 package com.example.shopsystem.model;
 
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
 @Data
+@EqualsAndHashCode(callSuper = true)  // Bu, BaseEntity'nin equals ve hashCode metodlarının da çağrılmasını sağlar.
 public class Order extends BaseEntity {
 
-    private Long customerId; // Müşteri ID'si
-    private List<Long> productIds; // Ürün ID'leri
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
-    // İsteğe bağlı olarak burada başka alanlar eklenebilir
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private List<Product> products;
+
+    private Double totalPrice;
+
+    private String orderStatus;
 }
-

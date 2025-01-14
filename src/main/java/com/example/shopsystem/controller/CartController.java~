@@ -36,8 +36,7 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<Cart> createCart(@Valid @RequestBody Cart cart) {
-        Cart createdCart;
-        createdCart = cartService.saveCart(cart);
+        Cart createdCart = cartService.saveCart(cart);
         return ResponseEntity.status(201).body(createdCart);
     }
 
